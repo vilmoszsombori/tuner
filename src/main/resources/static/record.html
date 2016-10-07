@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="WebRTC code samples">
+	<meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+	<meta itemprop="description" content="Client-side WebRTC code samples">
+	<meta itemprop="image" content="https://webrtc.github.io/samples/src/images/webrtc-icon-192x192.png">
+	<meta itemprop="name" content="WebRTC code samples">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta id="theme-color" name="theme-color" content="#ffffff">
+	<base target="_blank">
+	<title>Peer connection: audio only</title>
+	<link rel="icon" sizes="192x192" href="https://webrtc.github.io/samples/src/images/webrtc-icon-192x192.png">
+	<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+	<link href="//fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://webrtc.github.io/samples/src/css/main.css" />
+	<link rel="stylesheet" href="https://webrtc.github.io/samples/src/content/peerconnection/audio/css/main.css" />
+	<style>
+		svg {
+			font: 10px sans-serif;
+		}
+		
+		.x.axis line {
+			shape-rendering: auto;
+		}
+		
+		.line {
+			fill: none;
+			stroke: #000;
+			stroke-width: 1.5px;
+		}
+		
+		.axis path, .axis line {
+			fill: none;
+			stroke: #000;
+			shape-rendering: crispEdges;
+		}
+	</style>
+	<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script>	
+		var n = 40,
+		    random = function(n) {console.log(n); return 5;};
+		
+		function chart(domain, interpolation, tick) {
+			console.log(random);
+		  var data = d3.range(n).map(random);
+		
+		  var margin = {top: 6, right: 0, bottom: 6, left: 40},
+		      width = 960 - margin.right,
+		      height = 120 - margin.top - margin.bottom;
+		
+		  var x = d3.scale.linear()
+		      .domain(domain)
+		      .range([0, width]);
+		
+		  var y = d3.scale.linear()
+		      .domain([-10, 10])
+		      .range([height, 0]);
+		
+		  var line = d3.svg.line()
+		      .interpolate(interpolation)
+		      .x(function(d, i) { return x(i); })
+		      .y(function(d, i) { return y(d); });
+		
+		  var svg = d3.select("body").append("p").append("svg")
+		      .attr("width", width + margin.left + margin.right)
+		      .attr("height", height + margin.top + margin.bottom)
+		      .style("margin-left", -margin.left + "px")
+		    .append("g")
+		      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		
+		  svg.append("defs").append("clipPath")
+		      .attr("id", "clip")
+		    .append("rect")
+		      .attr("width", width)
+		      .attr("height", height);
+		
+		  svg.append("g")
+		      .attr("class", "y axis")
+		      .call(d3.svg.axis().scale(y).ticks(5).orient("left"));
+		
+		  var path = svg.append("g")
+		      .attr("clip-path", "url(#clip)")
+		    .append("path")
+		      .datum(data)
+		      .attr("class", "line")
+		      .attr("d", line);
+		
+		  tick(path, line, data, x);
+		}
+	
+	</script>
+	<script src="https://webrtc.github.io/samples/src/js/adapter.js"></script>
+	<script src="https://webrtc.github.io/samples/src/js/common.js"></script>
+    <script src="https://webrtc.github.io/samples/src/js/third_party/graph.js"></script>
+    <script src="https://webrtc.github.io/samples/src/js/lib/ga.js"></script>
+
+</head>
+
+<body>
+	<p>Click Allow, then press R for recording, once done, press S to
+		stop and grab the WAV file.</p>
+	<p id="output"></p>
+	<div id="progressbar"></div>
+	<div class="graph-container" id="graphContainer"></div>
+	<script src="js/record.js"></script>	
+	<!-- 	
+	<p>
+		<script src="js/plot.js"></script>
+	</p
+	-->
+</body>
+
+</html>
